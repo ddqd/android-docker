@@ -1,3 +1,5 @@
+[![Travis](https://img.shields.io/travis/ddqd/android-docker.svg?style=flat-square)](https://travis-ci.org/ddqd/android-docker)
+
 ###Docker container with android development environment
 
 ----
