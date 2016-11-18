@@ -53,6 +53,10 @@ ENV PATH $PATH:$GRADLE_HOME/bin
 # Install android tools and system image.
 RUN echo "y" | android update sdk --no-ui --force --filter platform-tools,$ANDROID_APIS,build-tools-$ANDROID_BUILD_TOOLS_VERSION,sysimg-${ANDROID_API_VERSION},extra-google-m2repository,extra-android-support,extra-android-m2repository
 
+RUN mkdir -p "$ANDROID_HOME/licenses" || true \
+    && echo -e "\n8933bad161af4178b1185d1a37fbf41ea5269c55" > "$ANDROID_HOME/licenses/android-sdk-license" \
+    && echo -e "\n84831b9409646a918e30573bab4c9c91346d8abd" > "$ANDROID_HOME/licenses/android-sdk-preview-license"
+
 # Clean up
 RUN cd /; rm $ANDROID_SDK_FILE
 #RUN rm android-ndk-r${NDK_VERSION}-linux-x86_64.bin
