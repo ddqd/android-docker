@@ -1,14 +1,30 @@
-###docker container with android development environment
+###Docker container with android development environment
 
-####build image
-``` docker build -t wowsuchtag . ```
+----
+#### Pull from Docker Hub
+```
+docker pull ddqd/android-docker:v2
+```
 
-####run container in background
-``` docker run -d -t <container_id> ```
+_or_
 
-####attach to container console
-``` docker exec -i -t <container_id> bash ```
+####Build image
+```
+docker build -t ddqd/android-docker .
+```
 
-###or run interactively
+####Run container in background
+``` 
+docker run -d -t ddqd/android-docker 
+```
 
-``` docker run -i -t <container_id> ```
+####Attach to container console
+``` 
+docker exec -i -t ddqd/android-docker bash
+```
+
+####Run interactively
+
+```
+docker run -i -t ddqd/android-docker
+```
