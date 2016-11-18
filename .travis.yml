@@ -1,0 +1,8 @@
+services:
+  - docker
+
+script:
+  - docker build -t docker-android .
+  - docker run -d docker-android
+  - docker ps -a
+  - docker run docker-android /bin/sh -c "android list"
