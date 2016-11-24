@@ -41,7 +41,6 @@ ENV GRADLE_HOME /usr/local/gradle
 ENV PATH $PATH:$GRADLE_HOME/bin
 
 # Install android tools and system image.
-RUN echo "y" | android update sdk --no-ui --force --filter tools,platform-tools
 RUN echo "y" | android update sdk --no-ui --force --filter tools,platform-tools,$ANDROID_APIS,build-tools-$ANDROID_BUILD_TOOLS_VERSION,sysimg-${ANDROID_API_VERSION},extra-google-m2repository,extra-android-support,extra-android-m2repository
 
 RUN mkdir -p "$ANDROID_HOME/licenses" || true \
