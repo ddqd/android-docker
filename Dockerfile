@@ -1,7 +1,7 @@
 # Android development environment
-# version 0.0.4
+# version 0.0.5
 
-FROM frekele/java:jdk8
+FROM ddqd/java:latest
 
 MAINTAINER Dmitry Gureev <dmi.gureev@gmail.com>
 
@@ -47,10 +47,6 @@ RUN mkdir -p "$ANDROID_HOME/licenses" || true \
     && echo -e "\n8933bad161af4178b1185d1a37fbf41ea5269c55" > "$ANDROID_HOME/licenses/android-sdk-license" \
     && echo -e "\n84831b9409646a918e30573bab4c9c91346d8abd" > "$ANDROID_HOME/licenses/android-sdk-preview-license"
 
-
-#Run-in-docker jenkins plugin magic
-RUN chmod -R a+rwx $ANDROID_HOME
-
 # Clean up
 RUN rm $ANDROID_SDK_FILE
 RUN rm gradle-$GRADLE_VERSION-bin.zip
@@ -58,10 +54,3 @@ RUN apt-get autoremove -y
 RUN apt-get clean
 
 WORKDIR /root
-
-RUN mkdir -p .android
-RUN touch .android/repositories.cfg
-RUN touch .android/analytics.settings
-RUN echo y | keytool -genkeypair -dname "cn=John doe, ou=Home, o=Sun, c=Ru" -alias \
-	testtest -keypass testtest -keystore ~/.android/debug.keystore -storepass testtest -validity 9999
-RUN chmod -R a+rw .android
