@@ -1,8 +1,8 @@
 services:
   - docker
 
-script:
+before_install:
   - docker build -t docker-android .
-  - docker run -d docker-android
-  - docker ps -a
-  - docker run docker-android /bin/sh -c "android list"
+
+script:
+  - docker run -it docker-android /bin/sh -c "android list"
