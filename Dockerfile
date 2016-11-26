@@ -31,13 +31,7 @@ RUN wget https://services.gradle.org/distributions/gradle-$GRADLE_VERSION-bin.zi
 RUN unzip -q -o gradle.zip -d /usr/local/
 ENV GRADLE_HOME /usr/local/gradle
 
-# Add gradle to PATH
-ENV PATH $PATH:$GRADLE_HOME/bin
-
-# Add android tools and platform tools to PATH
-RUN PATH=$PATH:$ANDROID_HOME/tools
-ENV PATH $PATH:$ANDROID_HOME/tools
-ENV PATH $PATH:$ANDROID_HOME/platform-tools
+ENV PATH $PATH:$GRADLE_HOME/bin:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools
 
 # Install android tools and system image.
 RUN echo "y" | android update sdk --no-ui --force --filter tools,platform-tools,$ANDROID_APIS,build-tools-$ANDROID_BUILD_TOOLS_VERSION,sysimg-${ANDROID_API_VERSION},extra-google-m2repository,extra-android-support,extra-android-m2repository
@@ -46,8 +40,12 @@ RUN mkdir -p "$ANDROID_HOME/licenses" || true \
     && echo -e "\n8933bad161af4178b1185d1a37fbf41ea5269c55" > "$ANDROID_HOME/licenses/android-sdk-license" \
     && echo -e "\n84831b9409646a918e30573bab4c9c91346d8abd" > "$ANDROID_HOME/licenses/android-sdk-preview-license"
 
+RUN chmod a+x -R $ANDROID_HOME && \
+    chown -R root:root $ANDROID_HOME
+
 # Clean up
-RUN rm $ANDROID_SDK_FILE gradle.zip
-RUN apt-get autoremove -y && apt-get clean
+RUN rm $ANDROID_SDK_FILE gradle.zip && \
+    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* && \
+    apt-get autoremove -y && apt-get clean
 
 WORKDIR /root

@@ -2,7 +2,9 @@ services:
   - docker
 
 before_install:
-  - docker build -t docker-android .
+  - docker build -t android-docker .
+  - docker run -d --name app android-docker
+  - docker ps -a
 
 script:
-  - docker run -it docker-android /bin/sh -c "android list"
+  - docker exec app android list
