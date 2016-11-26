@@ -9,4 +9,4 @@ before_install:
   - docker ps -a
 
 script:
-  - docker exec -it app android list
+  - docker run -it app /bin/sh -c "chmod +x /usr/local/android-sdk/tools/android && /usr/local/android-sdk/tools/android list"
