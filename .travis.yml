@@ -5,8 +5,8 @@ services:
 
 before_install:
   - docker build -t android-docker .
-  - docker run -d --name app android-docker
+  - docker run -d android-docker
   - docker ps -a
 
 script:
-  - docker run -it app /bin/sh -c "chmod +x /usr/local/android-sdk/tools/android && /usr/local/android-sdk/tools/android list"
+  - docker run android-docker /bin/sh -c "chmod +x /usr/local/android-sdk/tools/android && /usr/local/android-sdk/tools/android list"
