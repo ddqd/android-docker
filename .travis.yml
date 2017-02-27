@@ -7,4 +7,3 @@ script:
   - docker build -t android-docker .
   - docker run -d android-docker
   - docker ps -a
-  - docker run android-docker /bin/sh -c "chmod +x /usr/local/android-sdk/tools/android && /usr/local/android-sdk/tools/android list"
