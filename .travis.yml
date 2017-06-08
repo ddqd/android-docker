@@ -1,9 +1,24 @@
 sudo: required
 
+language: java
+
 services:
   - docker
 
+install:
+  - echo "bork"
+
 script:
-  - docker build -t android-docker .
-  - docker run -d android-docker
-  - docker ps -a
+  - echo "wuf"
+
+env:
+  global:
+  - secure: gDplxo7zmphVdBDVGx/Kwb+sp3zKNuJJnCQMLKZ/01nnU6ocLqh0/053PEXVRYJa+N54MmPPGyUQ67fRNL8PCCKYpiwtyF88jmwuQay/GImZW5A2wcRFuMDbf8pXUws3ikw/Gd12g8/PrdpaJ2tWdSXXWApNv5sSqVQ5BWPA7lomZSDOHyp1A1PgDj3RHT2ZH3koL/uOopv67h9cHZkE2RCA3TVgD4otbDwaWu+070Czpd2O8rgGlXZqAIGZevItIAbHr3HFoQSTZv6gfwGru7zYkqntObf8dVAehKnhHkR8Le5C+31nODG851qryBXpSlBWF3fEosEIkNlpa9LxYx8rBflfPmWThJj88A88dmJ5XN70Q41r/yhcxBGvLAq1FVcHds+JZ6Ethbmo1yihl94ASTaz9hcYbZ7r7fiTNIj4l17avFRXyu4wQz9T0z5/pWZ2XdiGOWTFu7fcDQKVnQCh3ZO94Kx/yuDCpkhCsw1+dA7UmnHTOnRUurkCKW4tNNzl4pdO56NJvWwcK9KS7b0naa1oBf8eJrLEdb5yQWsp8967WmyYsAE+ChxkoGz3N72l2Z2UetQntciIsF2TzuKwpCvnw2CMgJuL3OIj5nc/zBg0dOJ+YSNRKXx/gdJlpgDsjOT3iMGM91IMmFiAMB6yLGvvYwR5tRwJ81PgVMo=
+  - secure: Odl24NqQPEcjK5p6cxSlOpjCkdIiPyEtwMpSitKLXJLDF0DFQ3Au1jlq+cH0bHxjY2sLehdflHBAezZdJy+4yMAmxrwN5GL8kqeRTqh16ObSEVnVVZ0ss+J2O+UrkOP0BlWeJR321jsyV3NPCqNINRWikWT+psgirgcduPZkSEmItRhKgJ21I5mFAgbThGw5YSPbgv/4Rx1kyio9TNCDV3P0CuLPkU1DfwNHGoyyYtVefblJqZVhiDvVFJ/KOHynWP7milJFb9mTCllJXUjSY5RIMQLJQahb6Fp/IJJz/uNlpa9BvBgbTHw2j1i5IWEpgCVdbhWspyaOtMkK5GZwgE/U3bncwMFaSwQtV/3aqBpvDCEciQzNH3ACZQzZ3WW/sU4hVp0dG/beQXVFhTkBkLlXmkVTKpvtK6WGrNWwhHtxARQmjdDZM64ouPN3/8DdoKn+eHXnjdDgO4d+jFdlmQA4T81YvYMGUkdJ0soDU/P182ryG20sOLvOKu/NsVxGrvG8rXhM3kvwwc4aGK3IbH4gS72Wlrb2Jz4kCxrVw1H0Q4zJt9PmVYMqqguyOmTKGLRWeIq4c7xo6RpCT9WHx2/BcOmGjuxeSSrRUt+qgpBu6vpnM2FT9fpgE08aImtzj3xYSsGId77YhEoA8Ie2QBQ2/86Az1jH8wBSynKgXwc=
+  - secure: c+IbSkyhkYx6mL6UT4VoZwp587ksrE9od5tGbiXPP+mY51KzWN6861I+EK9RlnQy6bNdn6/rTjpW8AEwUxO2e5+7ZaLFA/LSNZpVxsvMeLV67Ws2KsqxSxLHTayMS/S+016mmsRD0YaW+KJBACEiBI/R6pq4MB/+pW/I8urux/WzPO+qau5sPZfg6+5q2+vOsnf5OSSpx1z50etBzmnisg2mgvamTErBlILh5F+XX4sCad75orw+5D1DNnPM3HNCyPuDnqFMwFYb6udH3XohtAYQ3QoOJ0AgQnLb1NaJk4kEvP9zgFJRQytKXG5NLjxmRTsymHOmNBL/Ssts974wmi49mCVIuKSzWO5v7NVTGLDZDTkKl1GRS1jCLDiCUKv3dDianx2VY+O8jA7v9+6K2JHWGvURVuWgx5tvCTCV8N0oR2qw4Uz1Gx3AFREFug60R/b4Q04qzbXrzjdaADAYGOAFPVSVfHyRebn0Bhy6oHus/EHEMILEFBMbOWHbmhuS6YV/AO8RhH3V8VwYdu4EyrJYIEx/71Bx84MLjXdH7qXm/0bEbFBw/CDOEfQou5jD+4kO0Oq+bS3CHr14h/c2JhZ8UhrKjUyRPl/jkUzhVMtdPwl4hBZOD60/AM/AoxABg/uH5HwDnHotlroyb2DKvpIragpiZoFq/2N0HyZogj8=
+after_success:
+  - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
+  - export REPO=ddqd/android-docker
+  - export TAG=`if [[ "$TRAVIS_BRANCH" == "develop" ]]; then echo "preview"; elif [[ "$TRAVIS_BRANCH" == "master" ]]; then echo "latest"; else echo $TRAVIS_BRANCH ; fi`
+  - docker build -f Dockerfile -t $REPO:$TAG .
+  - docker push $REPO
