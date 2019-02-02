@@ -5,7 +5,7 @@
 ----
 #### Pull from Docker Hub
 ```
-docker pull ddqd/android-docker:v2
+docker pull ddqd/android-docker:latest
 ```
 
 _or_
