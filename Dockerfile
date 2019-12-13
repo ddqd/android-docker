@@ -9,7 +9,7 @@ WORKDIR /tmp
 
 # Build-Variables
 ENV ANDROID_HOME /usr/local/android-sdk
-ENV GRADLE_VERSION 4.10.1
+ENV GRADLE_VERSION 6.0.1
 ENV SDK_VERSION 4333796
 ENV ANDROID_API_VERSION 28
 ENV ANDROID_SDK_URL https://dl.google.com/android/repository/sdk-tools-linux-${SDK_VERSION}.zip
